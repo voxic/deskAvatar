@@ -30,7 +30,7 @@ On first launch the app:
 
 ## Update the status text
 
-Edit the status file — the overlay updates automatically:
+Edit the status file — the overlay updates automatically. Always **overwrite** the file (do not append).
 
 ```bash
 echo "Shipping the MVP" > ~/.deskavatar/status.txt
@@ -43,6 +43,26 @@ echo "[alert] Build failed" > ~/.deskavatar/status.txt
 Or use the menu bar item **Open Status File**.
 
 Plain text (no tag) plays the **idle** animation. An optional leading tag selects another built-in state; the rest of the line is the status message shown in the overlay.
+
+### Multi-cue sequences
+
+One line with no duration holds until the next write (same as before). Multiple lines, and/or a trailing `@duration`, play as a sequence inside the app:
+
+```bash
+printf '%s\n' \
+  '[thinking] Reading the diff @2s' \
+  '[talking] Race in the status watcher @3.5s' \
+  '[celebrate] Patched @2s' \
+  '[idle] Standing by' \
+  > ~/.deskavatar/status.txt
+```
+
+- `@2s`, `@2.5s`, or `@2000ms` at the **end** of a line sets how long that beat holds before advancing.
+- A line without `@duration` holds until the next write (use this on the last beat).
+- A new write cancels playback and starts from the new contents.
+- DeskAvatar does **not** rewrite `status.txt` while playing — the file is the script; the overlay is the playhead.
+
+Local agents: see **[docs/agent-interface.md](docs/agent-interface.md)** for copy-paste interaction rules.
 
 ## Avatar
 
@@ -83,13 +103,16 @@ Closing the window does **not** quit the app — it only hides the overlay. Use 
 ## Project layout
 
 ```
-src/main.js                      Electron main process (window, tray, file watch)
+src/main.js                      Electron main process (window, tray, file watch, cue player)
+src/status.js                    Status file path, ensure/read, debounced watch
+src/status-cues.js               Multi-line + @duration cue parsing and player
 src/preload.js                   Secure bridge to the renderer
 src/renderer/index.html          Overlay markup (SVG avatar parts)
 src/renderer/styles.css          Overlay styles + per-state animations
 src/renderer/status-view.js      Status text normalization + [animation] tag parsing
 src/renderer/avatar-animation.js Animation state controller
 src/renderer/renderer.js         Wires status updates to text + animation
+docs/agent-interface.md          Instructions for local agents driving status.txt
 assets/tray-icon.png             Menu bar icon
 ```
 
@@ -97,4 +120,4 @@ assets/tray-icon.png             Menu bar icon
 
 - The window is always on top (including over full-screen apps) and can be dragged.
 - Status text is truncated to two lines in the UI; the full string is available as a tooltip on hover.
-- Avatar motion is CSS-driven via a small state controller; `status.txt` chooses the playing state with an optional `[animation]` tag.
+- Avatar motion is CSS-driven via a small state controller; `status.txt` chooses the playing state with an optional `[animation]` tag and optional multi-cue `@duration` sequence.

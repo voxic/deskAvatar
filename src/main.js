@@ -15,6 +15,11 @@ const {
   resolveStatusPaths,
 } = require("./status");
 const {
+  DEFAULT_ANIMATIONS,
+  parseStatusCues,
+  createCuePlayer,
+} = require("./status-cues");
+const {
   bottomRightPosition,
   trayToggleLabel,
   shouldHideInsteadOfClose,
@@ -28,11 +33,28 @@ let mainWindow = null;
 let tray = null;
 let statusWatcher = null;
 let isQuitting = false;
+let currentBeat = "";
+const cuePlayer = createCuePlayer();
 
-function pushStatusToRenderer() {
+function pushBeatToRenderer(text) {
+  currentBeat = typeof text === "string" ? text : "";
   if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.webContents.send("status-updated", readStatusText());
+    mainWindow.webContents.send("status-updated", currentBeat);
   }
+}
+
+function applyStatusText(text) {
+  const cues = parseStatusCues(text, {
+    allowedAnimations: DEFAULT_ANIMATIONS,
+  });
+
+  cuePlayer.play(cues, (cue) => {
+    pushBeatToRenderer(cue.display);
+  });
+}
+
+function applyStatusFromFile() {
+  applyStatusText(readStatusText());
 }
 
 function createWindow() {
@@ -70,7 +92,7 @@ function createWindow() {
   mainWindow.once("ready-to-show", () => {
     positionWindowBottomRight();
     mainWindow.showInactive();
-    pushStatusToRenderer();
+    applyStatusFromFile();
   });
 
   mainWindow.on("close", (event) => {
@@ -164,7 +186,11 @@ function toggleWindow() {
     mainWindow.hide();
   } else {
     mainWindow.showInactive();
-    pushStatusToRenderer();
+    if (currentBeat) {
+      pushBeatToRenderer(currentBeat);
+    } else {
+      applyStatusFromFile();
+    }
   }
 
   updateTrayMenu();
@@ -174,19 +200,29 @@ app.whenReady().then(() => {
   ensureStatusFile();
   createWindow();
   createTray();
-  statusWatcher = watchStatusFile(DEFAULT_STATUS_DIR, () => {
-    pushStatusToRenderer();
+  statusWatcher = watchStatusFile(DEFAULT_STATUS_DIR, (text) => {
+    applyStatusText(text);
   });
 
   // macOS: keep running when the window is closed (tray continues).
   app.dock?.hide();
 
-  ipcMain.handle("get-status", () => readStatusText());
+  ipcMain.handle("get-status", () => {
+    if (currentBeat) {
+      return currentBeat;
+    }
+
+    const cues = parseStatusCues(readStatusText(), {
+      allowedAnimations: DEFAULT_ANIMATIONS,
+    });
+    return cues[0] ? cues[0].display : readStatusText();
+  });
   ipcMain.handle("get-status-path", () => STATUS_FILE);
 });
 
 app.on("before-quit", () => {
   isQuitting = true;
+  cuePlayer.cancel();
   if (statusWatcher) {
     statusWatcher.close();
     statusWatcher = null;
