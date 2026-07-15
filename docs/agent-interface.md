@@ -32,7 +32,7 @@ Prefer a single write of the full body (as above). If your tool only supports mu
 ```
 
 - `[animation]` — optional. One of: `idle`, `thinking`, `celebrate`, `talking`, `alert`, `sleeping`, `loading`, `waiting`, `frustrated`, `happy`, `sad`, `angry`, `dead`, `gone-fishing`. Unknown tags → `idle`. Omit the tag for idle.
-- `message` — short status text (UI shows ~2 lines; keep it under ~80 characters).
+- `message` — optional short status text (UI shows ~2 lines; keep it under ~80 characters). Omit it to show **animation only** (no text in the overlay).
 - `@duration` — optional. Hold time before the next line. Examples: `@2s`, `@2.5s`, `@2000ms`. Put it at the **end** of the line. It is not shown on screen.
 
 ## Rule 3 — when to use one line vs many
@@ -85,6 +85,17 @@ Prefer a single write of the full body (as above). If your tool only supports mu
 ```text
 Standing by
 ```
+
+**Animation only (no message text)**
+
+```text
+[thinking]
+[loading] @3s
+[celebrate] @2s
+[idle] Ready
+```
+
+Write a tag with no message (and an optional `@duration`) when you want the avatar to animate without overlay copy.
 
 ## Animation cheat sheet
 

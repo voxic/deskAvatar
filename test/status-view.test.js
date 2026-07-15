@@ -62,19 +62,35 @@ describe("status view", () => {
     );
   });
 
-  it("uses the message fallback when only an animation tag is present", () => {
+  it("allows an empty message when only an animation tag is present", () => {
     assert.deepEqual(
       parseStatus("[thinking]", {
         allowedAnimations: ["idle", "thinking"],
       }),
       {
-        message: "Waiting for status…",
+        message: "",
         animation: "thinking",
       }
     );
   });
 
-  it("falls back to idle for non-string status values", () => {
+  it("allows an empty message for a recognized idle tag", () => {
+    assert.deepEqual(
+      parseStatus("[idle]", {
+        allowedAnimations: ["idle", "thinking"],
+      }),
+      {
+        message: "",
+        animation: "idle",
+      }
+    );
+  });
+
+  it("falls back for blank or non-string status values", () => {
+    assert.deepEqual(parseStatus("   "), {
+      message: "Waiting for status…",
+      animation: "idle",
+    });
     assert.deepEqual(parseStatus(null), {
       message: "Waiting for status…",
       animation: "idle",
