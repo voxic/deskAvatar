@@ -28,6 +28,30 @@ describe("status cues", () => {
     });
   });
 
+  it("allows tag-only cues with an empty message", () => {
+    assert.deepEqual(parseCueLine("[thinking]"), {
+      animation: "thinking",
+      text: "",
+      ms: null,
+      display: "[thinking]",
+    });
+    assert.deepEqual(parseCueLine("[idle]"), {
+      animation: "idle",
+      text: "",
+      ms: null,
+      display: "[idle]",
+    });
+  });
+
+  it("allows tag-only timed cues with an empty message", () => {
+    assert.deepEqual(parseCueLine("[thinking] @2s"), {
+      animation: "thinking",
+      text: "",
+      ms: 2000,
+      display: "[thinking]",
+    });
+  });
+
   it("parses fractional seconds and millisecond durations", () => {
     assert.equal(parseCueLine("[talking] Hi @2.5s").ms, 2500);
     assert.equal(parseCueLine("[alert] Boom @2000ms").ms, 2000);

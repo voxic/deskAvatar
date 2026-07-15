@@ -51,7 +51,7 @@ echo "[gone-fishing] BRB" > ~/.deskavatar/status.txt
 
 Or use the menu bar item **Open Status File**.
 
-Plain text (no tag) plays the **idle** animation. An optional leading tag selects another built-in state; the rest of the line is the status message shown in the overlay.
+Plain text (no tag) plays the **idle** animation. An optional leading tag selects another built-in state; the rest of the line is the status message shown in the overlay. A tag with no message (e.g. `[thinking]` or `[loading] @3s`) shows **animation only** — the text row is hidden.
 
 ### Multi-cue sequences
 

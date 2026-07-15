@@ -69,7 +69,9 @@ function formatCueDisplay(cue) {
       : DEFAULT_ANIMATION;
   const text = typeof cue.text === "string" ? cue.text : "";
 
-  if (animation === DEFAULT_ANIMATION) {
+  // Idle cues with text stay plain (legacy). Empty text must keep the tag so
+  // the renderer can tell "animation only" apart from a blank fallback.
+  if (animation === DEFAULT_ANIMATION && text) {
     return text;
   }
 

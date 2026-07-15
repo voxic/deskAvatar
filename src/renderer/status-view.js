@@ -44,10 +44,19 @@
     }
 
     let remaining = text.trim();
+    if (!remaining) {
+      return {
+        message: fallbackMessage,
+        animation: DEFAULT_ANIMATION,
+      };
+    }
+
     let animation = DEFAULT_ANIMATION;
+    let hadAnimationTag = false;
 
     const match = remaining.match(ANIMATION_TAG);
     if (match) {
+      hadAnimationTag = true;
       const candidate = match[1].toLowerCase();
       if (allowed.has(candidate)) {
         animation = candidate;
@@ -55,8 +64,12 @@
       remaining = remaining.slice(match[0].length).trim();
     }
 
+    // Tag-only cues (e.g. "[thinking]") keep an empty message so the overlay
+    // can show animation alone. Blank input without a tag still uses fallback.
     return {
-      message: normalizeStatusText(remaining, fallbackMessage),
+      message: hadAnimationTag
+        ? remaining
+        : normalizeStatusText(remaining, fallbackMessage),
       animation,
     };
   }
