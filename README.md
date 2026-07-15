@@ -81,22 +81,22 @@ The overlay face is a dark LED-style panel with cyan bar eyes and a short bar mo
 
 Built-in states:
 
-| Tag | Animation |
-| --- | --- |
-| _(none)_ or `[idle]` | Float + panel pulse + double-blink |
-| `[thinking]` | Head tilt + eye bars glance aside |
-| `[celebrate]` | Bounce/wobble + stretched mouth + eye glow |
-| `[talking]` | Bob + fast mouth open/close + eye flicker |
-| `[alert]` | Strong shake + cyan eye flash |
-| `[sleeping]` | Slow sink + shut eyes + soft breathing dim |
-| `[loading]` | Face rock + cycling eye pulse |
-| `[waiting]` | Impatient bounce + side glances |
-| `[frustrated]` | Slump tilt + sigh sway + squint |
-| `[happy]` | Light bounce + gentle smile stretch |
-| `[sad]` | Slow droop + narrowed eyes + sunk mouth |
-| `[angry]` | Sharp shake + flared eyes + flat mouth |
-| `[dead]` | Flat hold + crossed dim eyes + tiny mouth |
-| `[gone-fishing]` | Lean-back tilt + slow checked-out blink |
+| Tag | Preview | Animation |
+| --- | --- | --- |
+| _(none)_ or `[idle]` | ![idle](docs/animations/idle.gif) | Float + panel pulse + double-blink |
+| `[thinking]` | ![thinking](docs/animations/thinking.gif) | Head tilt + eye bars glance aside |
+| `[celebrate]` | ![celebrate](docs/animations/celebrate.gif) | Bounce/wobble + stretched mouth + eye glow |
+| `[talking]` | ![talking](docs/animations/talking.gif) | Bob + fast mouth open/close + eye flicker |
+| `[alert]` | ![alert](docs/animations/alert.gif) | Strong shake + cyan eye flash |
+| `[sleeping]` | ![sleeping](docs/animations/sleeping.gif) | Slow sink + shut eyes + soft breathing dim |
+| `[loading]` | ![loading](docs/animations/loading.gif) | Face rock + cycling eye pulse |
+| `[waiting]` | ![waiting](docs/animations/waiting.gif) | Impatient bounce + side glances |
+| `[frustrated]` | ![frustrated](docs/animations/frustrated.gif) | Slump tilt + sigh sway + squint |
+| `[happy]` | ![happy](docs/animations/happy.gif) | Light bounce + gentle smile stretch |
+| `[sad]` | ![sad](docs/animations/sad.gif) | Slow droop + narrowed eyes + sunk mouth |
+| `[angry]` | ![angry](docs/animations/angry.gif) | Sharp shake + flared eyes + flat mouth |
+| `[dead]` | ![dead](docs/animations/dead.gif) | Flat hold + crossed dim eyes + tiny mouth |
+| `[gone-fishing]` | ![gone-fishing](docs/animations/gone-fishing.gif) | Lean-back tilt + slow checked-out blink |
 
 Unknown tags fall back to **idle**. The tag is not shown in the overlay text.
 
@@ -104,7 +104,8 @@ Unknown tags fall back to **idle**. The tag is not shown in the overlay text.
 
 1. Register the name in `src/renderer/avatar-animation.js` and `src/status-cues.js` (`DEFAULT_ANIMATIONS` in both).
 2. Add CSS under `[data-animation="your-name"]` in `src/renderer/styles.css`.
-3. Use `[your-name] Your message` in `~/.deskavatar/status.txt`.
+3. Capture a preview GIF into `docs/animations/` (see `scripts/capture-animations.sh`) and add it to the table above.
+4. Use `[your-name] Your message` in `~/.deskavatar/status.txt`.
 
 ## Menu bar controls
 
@@ -132,6 +133,8 @@ src/renderer/avatar-animation.js Animation state controller
 src/renderer/renderer.js         Wires status updates to text + animation
 docs/agent-interface.md          Instructions for local agents driving status.txt
 docs/example-skill.md            Example SKILL.md for agents driving the overlay
+docs/animations/                 GIF previews for each avatar animation
+scripts/capture-animations.sh    Regenerates docs/animations/*.gif from the live overlay
 assets/tray-icon.png             Menu bar icon
 ```
 
