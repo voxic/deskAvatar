@@ -71,7 +71,7 @@ printf '%s\n' \
 - A new write cancels playback and starts from the new contents.
 - DeskAvatar does **not** rewrite `status.txt` while playing — the file is the script; the overlay is the playhead.
 
-Local agents: see **[docs/agent-interface.md](docs/agent-interface.md)** for copy-paste interaction rules.
+Local agents: see **[docs/agent-interface.md](docs/agent-interface.md)** for copy-paste interaction rules. For agents that use a `SKILL.md` / skills system, there is also an example skill at **[docs/example-skill.md](docs/example-skill.md)** (idle = face only, suggested 3–4s beats, overwrite-only status file).
 
 ## Avatar
 
@@ -131,6 +131,7 @@ src/renderer/status-view.js      Status text normalization + [animation] tag par
 src/renderer/avatar-animation.js Animation state controller
 src/renderer/renderer.js         Wires status updates to text + animation
 docs/agent-interface.md          Instructions for local agents driving status.txt
+docs/example-skill.md            Example SKILL.md for agents driving the overlay
 assets/tray-icon.png             Menu bar icon
 ```
 
