@@ -1,0 +1,17 @@
+{
+  "name": "deskavatar",
+  "version": "0.1.0",
+  "description": "A small always-on-top Mac overlay avatar driven by a local status file",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Emil Nildersen",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0"
+  }
+}
