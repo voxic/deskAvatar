@@ -3,6 +3,7 @@
   --fg: #edecec;
   --accent: #f54e00;
   --muted: rgba(237, 236, 236, 0.7);
+  --led: #5eead4;
 }
 
 * {
@@ -62,47 +63,59 @@ body {
 }
 
 .avatar[data-animation="idle"] {
-  animation: avatar-idle-float 3s ease-in-out infinite;
+  animation: avatar-idle-float 2.4s ease-in-out infinite;
+}
+
+.avatar[data-animation="idle"] .avatar-face {
+  animation: avatar-idle-pulse 2.4s ease-in-out infinite;
 }
 
 .avatar[data-animation="idle"] .avatar-eyes {
-  animation: avatar-idle-blink 4.5s ease-in-out infinite;
+  animation: avatar-idle-blink 3.2s ease-in-out infinite;
 }
 
 .avatar[data-animation="thinking"] {
-  animation: avatar-thinking-bob 2.8s ease-in-out infinite;
+  animation: avatar-thinking-bob 1.8s ease-in-out infinite;
 }
 
 .avatar[data-animation="thinking"] .avatar-face {
-  animation: avatar-thinking-tilt 2.8s ease-in-out infinite;
+  animation: avatar-thinking-tilt 1.8s ease-in-out infinite;
 }
 
 .avatar[data-animation="thinking"] .avatar-eyes {
-  animation: avatar-thinking-glance 2.8s ease-in-out infinite;
+  animation: avatar-thinking-glance 1.8s ease-in-out infinite;
 }
 
 .avatar[data-animation="celebrate"] {
-  animation: avatar-celebrate-bounce 0.9s ease-in-out infinite;
+  animation: avatar-celebrate-bounce 0.7s ease-in-out infinite;
 }
 
 .avatar[data-animation="celebrate"] .avatar-mouth {
-  animation: avatar-celebrate-smile 0.9s ease-in-out infinite;
+  animation: avatar-celebrate-smile 0.7s ease-in-out infinite;
+}
+
+.avatar[data-animation="celebrate"] .avatar-eyes {
+  animation: avatar-celebrate-glow 0.7s ease-in-out infinite;
 }
 
 .avatar[data-animation="talking"] {
-  animation: avatar-talking-bob 1.4s ease-in-out infinite;
+  animation: avatar-talking-bob 1s ease-in-out infinite;
 }
 
 .avatar[data-animation="talking"] .avatar-mouth {
-  animation: avatar-talking-mouth 0.55s ease-in-out infinite;
+  animation: avatar-talking-mouth 0.35s ease-in-out infinite;
+}
+
+.avatar[data-animation="talking"] .avatar-eyes {
+  animation: avatar-talking-flicker 0.7s ease-in-out infinite;
 }
 
 .avatar[data-animation="alert"] {
-  animation: avatar-alert-shake 0.7s ease-in-out infinite;
+  animation: avatar-alert-shake 0.45s ease-in-out infinite;
 }
 
 .avatar[data-animation="alert"] .avatar-eyes {
-  animation: avatar-alert-glance 0.7s ease-in-out infinite;
+  animation: avatar-alert-flash 0.45s ease-in-out infinite;
 }
 
 @keyframes avatar-idle-float {
@@ -111,19 +124,32 @@ body {
     transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+@keyframes avatar-idle-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.92;
   }
 }
 
 @keyframes avatar-idle-blink {
   0%,
-  42%,
-  48%,
+  38%,
+  44%,
+  52%,
+  58%,
   100% {
     transform: scaleY(1);
   }
-  45% {
-    transform: scaleY(0.08);
+  41%,
+  55% {
+    transform: scaleY(0.12);
   }
 }
 
@@ -133,40 +159,40 @@ body {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(3px);
+    transform: translateX(6px);
   }
 }
 
 @keyframes avatar-thinking-tilt {
   0%,
   100% {
-    transform: rotate(-6deg);
+    transform: rotate(-8deg);
   }
   50% {
-    transform: rotate(-10deg);
+    transform: rotate(-14deg);
   }
 }
 
 @keyframes avatar-thinking-glance {
   0%,
   100% {
-    transform: translate(3px, -1px);
+    transform: translate(4px, -2px);
   }
   50% {
-    transform: translate(5px, -2px);
+    transform: translate(9px, -3px) scaleX(0.92);
   }
 }
 
 @keyframes avatar-celebrate-bounce {
   0%,
   100% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) rotate(0deg);
   }
-  40% {
-    transform: translateY(-10px) scale(1.06);
+  35% {
+    transform: translateY(-14px) scale(1.1) rotate(-4deg);
   }
-  70% {
-    transform: translateY(-2px) scale(1.02);
+  65% {
+    transform: translateY(-3px) scale(1.04) rotate(3deg);
   }
 }
 
@@ -175,11 +201,27 @@ body {
   100% {
     transform: scale(1, 1);
   }
-  40% {
-    transform: scale(1.12, 0.88) translateY(2px);
+  35% {
+    transform: scale(1.35, 0.75) translateY(3px);
   }
-  70% {
-    transform: scale(1.06, 0.94) translateY(1px);
+  65% {
+    transform: scale(1.18, 0.9) translateY(1px);
+  }
+}
+
+@keyframes avatar-celebrate-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  35% {
+    transform: scale(1.12);
+    opacity: 0.85;
+  }
+  65% {
+    transform: scale(1.06);
+    opacity: 1;
   }
 }
 
@@ -189,40 +231,61 @@ body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-2px);
+    transform: translateY(-5px);
   }
 }
 
 @keyframes avatar-talking-mouth {
   0%,
   100% {
-    transform: scaleY(1);
+    transform: scaleY(1) scaleX(1);
   }
   50% {
-    transform: scaleY(0.45) translateY(2px);
+    transform: scaleY(0.28) scaleX(1.15) translateY(3px);
+  }
+}
+
+@keyframes avatar-talking-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.75;
+  }
+  60% {
+    opacity: 1;
   }
 }
 
 @keyframes avatar-alert-shake {
   0%,
   100% {
-    transform: translateX(0);
+    transform: translateX(0) rotate(0deg);
   }
-  25% {
-    transform: translateX(-4px);
+  20% {
+    transform: translateX(-7px) rotate(-3deg);
   }
-  75% {
-    transform: translateX(4px);
+  40% {
+    transform: translateX(7px) rotate(3deg);
+  }
+  60% {
+    transform: translateX(-5px) rotate(-2deg);
+  }
+  80% {
+    transform: translateX(5px) rotate(2deg);
   }
 }
 
-@keyframes avatar-alert-glance {
+@keyframes avatar-alert-flash {
   0%,
   100% {
-    transform: scale(1.05) translateY(-1px);
+    transform: scale(1.08, 1.35);
+    opacity: 1;
   }
   50% {
-    transform: scale(1.12) translateY(-2px);
+    transform: scale(1.25, 1.55);
+    opacity: 0.7;
   }
 }
 

@@ -44,17 +44,21 @@ Or use the menu bar item **Open Status File**.
 
 Plain text (no tag) plays the **idle** animation. An optional leading tag selects another built-in state; the rest of the line is the status message shown in the overlay.
 
+## Avatar
+
+The overlay face is a dark LED-style panel with cyan bar eyes and a short bar mouth (no cheeks or skin tones). Soft glow on the LEDs; motion is snappy CSS keyframes driven by status tags.
+
 ## Avatar animations
 
 Built-in states:
 
 | Tag | Animation |
 | --- | --- |
-| _(none)_ or `[idle]` | Gentle float + blink |
-| `[thinking]` | Head tilt + eyes glance aside |
-| `[celebrate]` | Bounce + wider smile |
-| `[talking]` | Light bob + mouth open/close |
-| `[alert]` | Side-to-side shake + wide eyes |
+| _(none)_ or `[idle]` | Float + panel pulse + double-blink |
+| `[thinking]` | Head tilt + eye bars glance aside |
+| `[celebrate]` | Bounce/wobble + stretched mouth + eye glow |
+| `[talking]` | Bob + fast mouth open/close + eye flicker |
+| `[alert]` | Strong shake + cyan eye flash |
 
 Unknown tags fall back to **idle**. The tag is not shown in the overlay text.
 
