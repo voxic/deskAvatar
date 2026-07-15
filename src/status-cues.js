@@ -1,7 +1,22 @@
 const { parseStatus, DEFAULT_ANIMATION } = require("./renderer/status-view");
 
 const DURATION_SUFFIX = /\s+@(\d+(?:\.\d+)?)(ms|s)\s*$/i;
-const DEFAULT_ANIMATIONS = ["idle", "thinking", "celebrate", "talking", "alert"];
+const DEFAULT_ANIMATIONS = [
+  "idle",
+  "thinking",
+  "celebrate",
+  "talking",
+  "alert",
+  "sleeping",
+  "loading",
+  "waiting",
+  "frustrated",
+  "happy",
+  "sad",
+  "angry",
+  "dead",
+  "gone-fishing",
+];
 
 function parseDurationMs(value, unit) {
   const amount = Number(value);

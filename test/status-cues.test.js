@@ -56,6 +56,28 @@ describe("status cues", () => {
     );
   });
 
+  it("parses new mood animation tags including gone-fishing", () => {
+    assert.deepEqual(parseCueLine("[sleeping] Zzz @3s"), {
+      animation: "sleeping",
+      text: "Zzz",
+      ms: 3000,
+      display: "[sleeping] Zzz",
+    });
+    assert.deepEqual(parseCueLine("[gone-fishing] BRB"), {
+      animation: "gone-fishing",
+      text: "BRB",
+      ms: null,
+      display: "[gone-fishing] BRB",
+    });
+    assert.equal(parseCueLine("[loading] Busy…").animation, "loading");
+    assert.equal(parseCueLine("[frustrated] Ugh").animation, "frustrated");
+    assert.equal(parseCueLine("[happy] Nice").animation, "happy");
+    assert.equal(parseCueLine("[sad] Oops").animation, "sad");
+    assert.equal(parseCueLine("[angry] Nope").animation, "angry");
+    assert.equal(parseCueLine("[dead] Crash").animation, "dead");
+    assert.equal(parseCueLine("[waiting] …").animation, "waiting");
+  });
+
   it("splits a multi-line file into cues and ignores blank lines", () => {
     const cues = parseStatusCues(
       [

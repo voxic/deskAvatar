@@ -25,6 +25,15 @@ describe("avatar animation", () => {
       "celebrate",
       "talking",
       "alert",
+      "sleeping",
+      "loading",
+      "waiting",
+      "frustrated",
+      "happy",
+      "sad",
+      "angry",
+      "dead",
+      "gone-fishing",
     ]);
     assert.deepEqual(DEFAULT_ANIMATIONS, [
       "idle",
@@ -32,6 +41,15 @@ describe("avatar animation", () => {
       "celebrate",
       "talking",
       "alert",
+      "sleeping",
+      "loading",
+      "waiting",
+      "frustrated",
+      "happy",
+      "sad",
+      "angry",
+      "dead",
+      "gone-fishing",
     ]);
   });
 
@@ -51,6 +69,33 @@ describe("avatar animation", () => {
 
     assert.equal(avatar.setAnimation("alert"), "alert");
     assert.equal(el.dataset.animation, "alert");
+
+    assert.equal(avatar.setAnimation("sleeping"), "sleeping");
+    assert.equal(el.dataset.animation, "sleeping");
+
+    assert.equal(avatar.setAnimation("loading"), "loading");
+    assert.equal(el.dataset.animation, "loading");
+
+    assert.equal(avatar.setAnimation("waiting"), "waiting");
+    assert.equal(el.dataset.animation, "waiting");
+
+    assert.equal(avatar.setAnimation("frustrated"), "frustrated");
+    assert.equal(el.dataset.animation, "frustrated");
+
+    assert.equal(avatar.setAnimation("happy"), "happy");
+    assert.equal(el.dataset.animation, "happy");
+
+    assert.equal(avatar.setAnimation("sad"), "sad");
+    assert.equal(el.dataset.animation, "sad");
+
+    assert.equal(avatar.setAnimation("angry"), "angry");
+    assert.equal(el.dataset.animation, "angry");
+
+    assert.equal(avatar.setAnimation("dead"), "dead");
+    assert.equal(el.dataset.animation, "dead");
+
+    assert.equal(avatar.setAnimation("gone-fishing"), "gone-fishing");
+    assert.equal(el.dataset.animation, "gone-fishing");
 
     assert.equal(avatar.setAnimation("idle"), "idle");
     assert.equal(el.dataset.animation, "idle");

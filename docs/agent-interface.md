@@ -31,7 +31,7 @@ Prefer a single write of the full body (as above). If your tool only supports mu
 [animation] message @duration
 ```
 
-- `[animation]` — optional. One of: `idle`, `thinking`, `celebrate`, `talking`, `alert`. Unknown tags → `idle`. Omit the tag for idle.
+- `[animation]` — optional. One of: `idle`, `thinking`, `celebrate`, `talking`, `alert`, `sleeping`, `loading`, `waiting`, `frustrated`, `happy`, `sad`, `angry`, `dead`, `gone-fishing`. Unknown tags → `idle`. Omit the tag for idle.
 - `message` — short status text (UI shows ~2 lines; keep it under ~80 characters).
 - `@duration` — optional. Hold time before the next line. Examples: `@2s`, `@2.5s`, `@2000ms`. Put it at the **end** of the line. It is not shown on screen.
 
@@ -95,3 +95,12 @@ Standing by
 | `talking` | Explaining, narrating progress |
 | `celebrate` | Done, success |
 | `alert` | Error, blocked, needs attention |
+| `sleeping` | Idle overnight, paused, nothing to do |
+| `loading` | Long compile, install, or download in progress |
+| `waiting` | Awaiting user input or an external review |
+| `frustrated` | Repeated failure, flaky tests, mild annoyance |
+| `happy` | Mild win — green build, small success |
+| `sad` | Soft setback — conflict, rejection, cleanup |
+| `angry` | Strong failure or broken invariant |
+| `dead` | Crash, OOM, process died |
+| `gone-fishing` | Stepping away, AFK, deliberately offline |
