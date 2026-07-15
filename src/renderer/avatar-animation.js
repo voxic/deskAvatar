@@ -6,7 +6,7 @@
     root.DeskAvatarAvatarAnimation = api;
   }
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
-  const DEFAULT_ANIMATIONS = ["idle", "thinking"];
+  const DEFAULT_ANIMATIONS = ["idle", "thinking", "celebrate", "talking", "alert"];
   const DEFAULT_ANIMATION = "idle";
 
   function normalizeAnimationName(name) {
