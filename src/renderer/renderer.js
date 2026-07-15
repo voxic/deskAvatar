@@ -1,9 +1,14 @@
 const statusEl = document.getElementById("status-text");
+const avatarEl = document.querySelector(".avatar");
+const avatar = DeskAvatarAvatarAnimation.createAvatarAnimation(avatarEl);
 
 function setStatus(text) {
-  const normalized = DeskAvatarStatusView.normalizeStatusText(text);
-  statusEl.textContent = normalized;
-  statusEl.title = typeof text === "string" ? text : normalized;
+  const { message, animation } = DeskAvatarStatusView.parseStatus(text, {
+    allowedAnimations: avatar.listAnimations(),
+  });
+  statusEl.textContent = message;
+  statusEl.title = message;
+  avatar.setAnimation(animation);
 }
 
 async function init() {

@@ -51,6 +51,95 @@ body {
   width: 100%;
   height: 100%;
   display: block;
+  overflow: visible;
+}
+
+.avatar-face,
+.avatar-eyes,
+.avatar-mouth {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.avatar[data-animation="idle"] {
+  animation: avatar-idle-float 3s ease-in-out infinite;
+}
+
+.avatar[data-animation="idle"] .avatar-eyes {
+  animation: avatar-idle-blink 4.5s ease-in-out infinite;
+}
+
+.avatar[data-animation="thinking"] {
+  animation: avatar-thinking-bob 2.8s ease-in-out infinite;
+}
+
+.avatar[data-animation="thinking"] .avatar-face {
+  animation: avatar-thinking-tilt 2.8s ease-in-out infinite;
+}
+
+.avatar[data-animation="thinking"] .avatar-eyes {
+  animation: avatar-thinking-glance 2.8s ease-in-out infinite;
+}
+
+@keyframes avatar-idle-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+
+@keyframes avatar-idle-blink {
+  0%,
+  42%,
+  48%,
+  100% {
+    transform: scaleY(1);
+  }
+  45% {
+    transform: scaleY(0.08);
+  }
+}
+
+@keyframes avatar-thinking-bob {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes avatar-thinking-tilt {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes avatar-thinking-glance {
+  0%,
+  100% {
+    transform: translate(3px, -1px);
+  }
+  50% {
+    transform: translate(5px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar[data-animation],
+  .avatar[data-animation] .avatar-face,
+  .avatar[data-animation] .avatar-eyes,
+  .avatar[data-animation] .avatar-mouth {
+    animation: none;
+  }
 }
 
 .status {
