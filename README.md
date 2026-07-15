@@ -38,6 +38,15 @@ echo "[thinking] Deep in a refactor" > ~/.deskavatar/status.txt
 echo "[celebrate] Shipped!" > ~/.deskavatar/status.txt
 echo "[talking] Standup" > ~/.deskavatar/status.txt
 echo "[alert] Build failed" > ~/.deskavatar/status.txt
+echo "[sleeping] Taking a nap" > ~/.deskavatar/status.txt
+echo "[loading] Compiling…" > ~/.deskavatar/status.txt
+echo "[waiting] Awaiting review" > ~/.deskavatar/status.txt
+echo "[frustrated] Third flaky test" > ~/.deskavatar/status.txt
+echo "[happy] Green build" > ~/.deskavatar/status.txt
+echo "[sad] Merge conflict" > ~/.deskavatar/status.txt
+echo "[angry] Force-pushed main" > ~/.deskavatar/status.txt
+echo "[dead] OOM killed" > ~/.deskavatar/status.txt
+echo "[gone-fishing] BRB" > ~/.deskavatar/status.txt
 ```
 
 Or use the menu bar item **Open Status File**.
@@ -79,12 +88,21 @@ Built-in states:
 | `[celebrate]` | Bounce/wobble + stretched mouth + eye glow |
 | `[talking]` | Bob + fast mouth open/close + eye flicker |
 | `[alert]` | Strong shake + cyan eye flash |
+| `[sleeping]` | Slow sink + shut eyes + soft breathing dim |
+| `[loading]` | Face rock + cycling eye pulse |
+| `[waiting]` | Impatient bounce + side glances |
+| `[frustrated]` | Slump tilt + sigh sway + squint |
+| `[happy]` | Light bounce + gentle smile stretch |
+| `[sad]` | Slow droop + narrowed eyes + sunk mouth |
+| `[angry]` | Sharp shake + flared eyes + flat mouth |
+| `[dead]` | Flat hold + crossed dim eyes + tiny mouth |
+| `[gone-fishing]` | Lean-back tilt + slow checked-out blink |
 
 Unknown tags fall back to **idle**. The tag is not shown in the overlay text.
 
 ### Adding an animation
 
-1. Register the name in `src/renderer/avatar-animation.js` (`DEFAULT_ANIMATIONS`).
+1. Register the name in `src/renderer/avatar-animation.js` and `src/status-cues.js` (`DEFAULT_ANIMATIONS` in both).
 2. Add CSS under `[data-animation="your-name"]` in `src/renderer/styles.css`.
 3. Use `[your-name] Your message` in `~/.deskavatar/status.txt`.
 
