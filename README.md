@@ -14,6 +14,14 @@ npm install
 npm start
 ```
 
+## Tests
+
+```bash
+npm test
+```
+
+Uses Node's built-in test runner (no extra test framework). Coverage focuses on status-file IO, window placement helpers, tray hide/show labels, and status text normalization.
+
 On first launch the app:
 
 1. Creates `~/.deskavatar/status.txt` (if missing)

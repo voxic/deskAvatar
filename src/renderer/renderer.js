@@ -1,8 +1,9 @@
 const statusEl = document.getElementById("status-text");
 
 function setStatus(text) {
-  statusEl.textContent = text || "Waiting for status…";
-  statusEl.title = text || "";
+  const normalized = DeskAvatarStatusView.normalizeStatusText(text);
+  statusEl.textContent = normalized;
+  statusEl.title = typeof text === "string" ? text : normalized;
 }
 
 async function init() {

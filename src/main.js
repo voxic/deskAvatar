@@ -6,67 +6,32 @@ const {
   nativeImage,
   ipcMain,
 } = require("electron");
-const fs = require("fs");
 const path = require("path");
-const os = require("os");
+const {
+  DEFAULT_STATUS_DIR,
+  ensureStatusFile,
+  readStatusText,
+  watchStatusFile,
+  resolveStatusPaths,
+} = require("./status");
+const {
+  bottomRightPosition,
+  trayToggleLabel,
+  shouldHideInsteadOfClose,
+} = require("./window-layout");
 
 const WINDOW_WIDTH = 160;
 const WINDOW_HEIGHT = 210;
-const STATUS_DIR = path.join(os.homedir(), ".deskavatar");
-const STATUS_FILE = path.join(STATUS_DIR, "status.txt");
-const DEFAULT_STATUS = "Hello from DeskAvatar";
+const { statusFile: STATUS_FILE } = resolveStatusPaths(DEFAULT_STATUS_DIR);
 
 let mainWindow = null;
 let tray = null;
 let statusWatcher = null;
 let isQuitting = false;
 
-function ensureStatusFile() {
-  if (!fs.existsSync(STATUS_DIR)) {
-    fs.mkdirSync(STATUS_DIR, { recursive: true });
-  }
-
-  if (!fs.existsSync(STATUS_FILE)) {
-    fs.writeFileSync(STATUS_FILE, `${DEFAULT_STATUS}\n`, "utf8");
-  }
-}
-
-function readStatusText() {
-  try {
-    const text = fs.readFileSync(STATUS_FILE, "utf8").trim();
-    return text || DEFAULT_STATUS;
-  } catch {
-    return DEFAULT_STATUS;
-  }
-}
-
 function pushStatusToRenderer() {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send("status-updated", readStatusText());
-  }
-}
-
-function watchStatusFile() {
-  if (statusWatcher) {
-    statusWatcher.close();
-    statusWatcher = null;
-  }
-
-  // Watch the directory so atomic editor saves (rename/replace) are still detected.
-  try {
-    statusWatcher = fs.watch(STATUS_DIR, { persistent: true }, (_eventType, filename) => {
-      if (filename && filename !== path.basename(STATUS_FILE)) {
-        return;
-      }
-
-      clearTimeout(watchStatusFile._timer);
-      watchStatusFile._timer = setTimeout(() => {
-        ensureStatusFile();
-        pushStatusToRenderer();
-      }, 50);
-    });
-  } catch (error) {
-    console.error("Failed to watch status file:", error);
   }
 }
 
@@ -109,7 +74,7 @@ function createWindow() {
   });
 
   mainWindow.on("close", (event) => {
-    if (!isQuitting) {
+    if (shouldHideInsteadOfClose(isQuitting)) {
       event.preventDefault();
       mainWindow.hide();
     }
@@ -119,9 +84,10 @@ function createWindow() {
 function positionWindowBottomRight() {
   const { screen } = require("electron");
   const display = screen.getPrimaryDisplay();
-  const { width, height } = display.workArea;
-  const x = display.workArea.x + width - WINDOW_WIDTH - 24;
-  const y = display.workArea.y + height - WINDOW_HEIGHT - 24;
+  const { x, y } = bottomRightPosition(display.workArea, {
+    width: WINDOW_WIDTH,
+    height: WINDOW_HEIGHT,
+  });
   mainWindow.setPosition(x, y);
 }
 
@@ -130,7 +96,6 @@ function createTray() {
   let icon = nativeImage.createFromPath(iconPath);
 
   if (icon.isEmpty()) {
-    // 16x16 template-friendly fallback if the PNG is missing.
     icon = nativeImage.createEmpty();
   }
 
@@ -148,17 +113,16 @@ function createTray() {
 }
 
 function createFallbackTrayIcon() {
-  // Minimal 16x16 PNG (black circle) encoded as base64 for menu-bar visibility.
   const pngBase64 =
     "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1HAwCAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAHdElNRQfmBxkTJxVnVwKqAAAAPUlEQVQoz2NgGAWjYBQMZ8BAPxowMzAwMDAwMTAwMjD8Z2D4z8DAwMjAwMjAwPCfkYGBgYGBgYGBgYGBgQEADVkCBq9mHpcAAAAASUVORK5CYII=";
   return nativeImage.createFromBuffer(Buffer.from(pngBase64, "base64"));
 }
 
 function updateTrayMenu() {
-  const visible = mainWindow && mainWindow.isVisible();
+  const visible = Boolean(mainWindow && mainWindow.isVisible());
   const menu = Menu.buildFromTemplate([
     {
-      label: visible ? "Hide Avatar" : "Show Avatar",
+      label: trayToggleLabel(visible),
       click: () => toggleWindow(),
     },
     { type: "separator" },
@@ -210,7 +174,9 @@ app.whenReady().then(() => {
   ensureStatusFile();
   createWindow();
   createTray();
-  watchStatusFile();
+  statusWatcher = watchStatusFile(DEFAULT_STATUS_DIR, () => {
+    pushStatusToRenderer();
+  });
 
   // macOS: keep running when the window is closed (tray continues).
   app.dock?.hide();
