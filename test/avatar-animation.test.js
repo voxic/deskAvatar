@@ -19,8 +19,20 @@ describe("avatar animation", () => {
     assert.equal(avatar.getAnimation(), "idle");
     assert.equal(el.dataset.animation, "idle");
     assert.equal(DEFAULT_ANIMATION, "idle");
-    assert.deepEqual(avatar.listAnimations(), ["idle", "thinking"]);
-    assert.deepEqual(DEFAULT_ANIMATIONS, ["idle", "thinking"]);
+    assert.deepEqual(avatar.listAnimations(), [
+      "idle",
+      "thinking",
+      "celebrate",
+      "talking",
+      "alert",
+    ]);
+    assert.deepEqual(DEFAULT_ANIMATIONS, [
+      "idle",
+      "thinking",
+      "celebrate",
+      "talking",
+      "alert",
+    ]);
   });
 
   it("sets dataset.animation for known states", () => {
@@ -30,6 +42,15 @@ describe("avatar animation", () => {
     assert.equal(avatar.setAnimation("thinking"), "thinking");
     assert.equal(el.dataset.animation, "thinking");
     assert.equal(avatar.getAnimation(), "thinking");
+
+    assert.equal(avatar.setAnimation("celebrate"), "celebrate");
+    assert.equal(el.dataset.animation, "celebrate");
+
+    assert.equal(avatar.setAnimation("talking"), "talking");
+    assert.equal(el.dataset.animation, "talking");
+
+    assert.equal(avatar.setAnimation("alert"), "alert");
+    assert.equal(el.dataset.animation, "alert");
 
     assert.equal(avatar.setAnimation("idle"), "idle");
     assert.equal(el.dataset.animation, "idle");
@@ -47,12 +68,12 @@ describe("avatar animation", () => {
   it("accepts extra registered animations via options", () => {
     const el = createMockAvatar();
     const avatar = createAvatarAnimation(el, {
-      animations: ["idle", "thinking", "celebrate"],
+      animations: ["idle", "thinking", "wave"],
     });
 
-    assert.deepEqual(avatar.listAnimations(), ["idle", "thinking", "celebrate"]);
-    assert.equal(avatar.setAnimation("celebrate"), "celebrate");
-    assert.equal(el.dataset.animation, "celebrate");
+    assert.deepEqual(avatar.listAnimations(), ["idle", "thinking", "wave"]);
+    assert.equal(avatar.setAnimation("wave"), "wave");
+    assert.equal(el.dataset.animation, "wave");
   });
 
   it("reports motion disabled when prefers-reduced-motion matches", () => {

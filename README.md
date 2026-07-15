@@ -35,6 +35,9 @@ Edit the status file — the overlay updates automatically:
 ```bash
 echo "Shipping the MVP" > ~/.deskavatar/status.txt
 echo "[thinking] Deep in a refactor" > ~/.deskavatar/status.txt
+echo "[celebrate] Shipped!" > ~/.deskavatar/status.txt
+echo "[talking] Standup" > ~/.deskavatar/status.txt
+echo "[alert] Build failed" > ~/.deskavatar/status.txt
 ```
 
 Or use the menu bar item **Open Status File**.
@@ -49,6 +52,9 @@ Built-in states:
 | --- | --- |
 | _(none)_ or `[idle]` | Gentle float + blink |
 | `[thinking]` | Head tilt + eyes glance aside |
+| `[celebrate]` | Bounce + wider smile |
+| `[talking]` | Light bob + mouth open/close |
+| `[alert]` | Side-to-side shake + wide eyes |
 
 Unknown tags fall back to **idle**. The tag is not shown in the overlay text.
 

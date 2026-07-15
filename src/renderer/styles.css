@@ -81,6 +81,30 @@ body {
   animation: avatar-thinking-glance 2.8s ease-in-out infinite;
 }
 
+.avatar[data-animation="celebrate"] {
+  animation: avatar-celebrate-bounce 0.9s ease-in-out infinite;
+}
+
+.avatar[data-animation="celebrate"] .avatar-mouth {
+  animation: avatar-celebrate-smile 0.9s ease-in-out infinite;
+}
+
+.avatar[data-animation="talking"] {
+  animation: avatar-talking-bob 1.4s ease-in-out infinite;
+}
+
+.avatar[data-animation="talking"] .avatar-mouth {
+  animation: avatar-talking-mouth 0.55s ease-in-out infinite;
+}
+
+.avatar[data-animation="alert"] {
+  animation: avatar-alert-shake 0.7s ease-in-out infinite;
+}
+
+.avatar[data-animation="alert"] .avatar-eyes {
+  animation: avatar-alert-glance 0.7s ease-in-out infinite;
+}
+
 @keyframes avatar-idle-float {
   0%,
   100% {
@@ -130,6 +154,75 @@ body {
   }
   50% {
     transform: translate(5px, -2px);
+  }
+}
+
+@keyframes avatar-celebrate-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-10px) scale(1.06);
+  }
+  70% {
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+@keyframes avatar-celebrate-smile {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  40% {
+    transform: scale(1.12, 0.88) translateY(2px);
+  }
+  70% {
+    transform: scale(1.06, 0.94) translateY(1px);
+  }
+}
+
+@keyframes avatar-talking-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes avatar-talking-mouth {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.45) translateY(2px);
+  }
+}
+
+@keyframes avatar-alert-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes avatar-alert-glance {
+  0%,
+  100% {
+    transform: scale(1.05) translateY(-1px);
+  }
+  50% {
+    transform: scale(1.12) translateY(-2px);
   }
 }
 
